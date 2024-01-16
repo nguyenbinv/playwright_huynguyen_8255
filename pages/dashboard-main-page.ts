@@ -3,10 +3,11 @@ import { Locator, Page, expect } from "@playwright/test"
 export default class DashboardMainPage {
     constructor(private readonly page: Page) { }
 
-    // update xpath
-    readonly logoutBtn: Locator = this.page.locator('xpath = //input[@id = "username"]');
+    readonly profileLabel: Locator = this.page.locator('//a[@href="#Welcome"]');
+    readonly logoutBtn: Locator = this.page.locator('//a[@href="logout.do"]');
 
     async logout(): Promise<void> {
+        await this.profileLabel.hover();
         await this.logoutBtn.click();
     }
 

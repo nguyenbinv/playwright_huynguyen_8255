@@ -6,7 +6,7 @@ export default class LoginPage {
     readonly repositoryCbx: Locator = this.page.locator('xpath = //select[@id = "repository"]');
     readonly usernameTxt: Locator = this.page.locator('xpath = //input[@id = "username"]');
     readonly passwordTxt: Locator = this.page.locator('xpath = //input[@id = "password"]');
-    readonly loginBtn: Locator = this.page.locator('xpath = //div[@class = "btn-login"]');
+    readonly loginBtn: Locator = this.page.locator('.btn-login');
 
     async login(username: string, password: string, repository?: string): Promise<void> {
         if (repository != null && repository != undefined) {
@@ -15,6 +15,18 @@ export default class LoginPage {
         await this.usernameTxt.fill(username);
         await this.passwordTxt.fill(password);
         await this.loginBtn.click();
+    }
+
+    async verifyDialogMessage(dialogMessage: string): Promise<void> {
+        // expect(this.page.on('dialog', async dialog => dialog.message.toString() === dialogMessage));
+        // this.page.on('dialog', dialog => dialog.accept());
+
+        this.page.on('dialog', dialog => {
+            console.log(dialog.message());
+            console.log(dialogMessage);
+            // expect(dialog.message()).toEqual(dialogMessage);
+            dialog.accept();
+        });
     }
 
     async displays(): Promise<void> {

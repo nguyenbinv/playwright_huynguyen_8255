@@ -12,7 +12,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -28,42 +28,69 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    launchOptions: {
+      args: ["--start-maximized"],
+    }
   },
 
   /* Configure projects for major browsers */
   projects: [
     // {
     //   name: 'chromium',
-    //   use: { ...devices['Desktop Chrome'] },
+    //   use: {
+    //     ...devices['Desktop Chrome'],
+    //     headless: false
+    //   },
     // },
     // {
     //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     headless: false
+    //   },
     // },
     // {
     //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
+    //   use: {
+    //     ...devices['Desktop Safari']
+    //   },
     // },
-    
+
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
+    //   use: {
+    //     ...devices['Pixel 5']
+    //   },
     // },
     // {
     //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
+    //   use: {
+    //     ...devices['iPhone 12']
+    //   },
     // },
 
     /* Test against branded browsers. */
     // {
     //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    //   use: {
+    //     ...devices['Desktop Edge'],
+    //     channel: 'msedge'
+    //   },
     // },
     {
       name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    },
+      use: {
+        // ...devices['Desktop Chrome'],
+        channel: 'chrome',
+        headless: false,
+        viewport: null
+        // launchOptions: {
+        //   args: ["--start-maximized"]
+        // },
+      },
+    }
   ],
 
   /* Run your local dev server before starting the tests */
