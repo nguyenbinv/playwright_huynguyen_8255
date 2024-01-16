@@ -3,12 +3,20 @@ import DashboardMainPage from '../pages/dashboard-main-page';
 import LoginPage from '../pages/login-page';
 import Utilities from '../utilities/utilities';
 
-test.beforeEach('Init browser and navigate to TA Dashboard', async ({ page }) => {
+test.beforeAll('Init browser and navigate to TA Dashboard', async ({ page }) => {
   const utility = new Utilities(page);
   await utility.navigateTo('http://localhost/TADashboard/login.jsp');
 });
 
-test.afterEach('Close browser', async ({ page }) => {
+test.afterEach('Logout', async ({ page }) => {
+  const dashboardMainPage = new DashboardMainPage(page);
+  await dashboardMainPage.logout();
+
+  const loginPage = new LoginPage(page);
+  await loginPage.displays();
+});
+
+test.afterAll('Close browser', async ({ page }) => {
   page.close();
 });
 

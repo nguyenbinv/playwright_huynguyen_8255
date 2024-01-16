@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test"
+import { Locator, Page, expect } from "@playwright/test"
 
 export default class LoginPage {
     constructor(private readonly page: Page) { }
@@ -15,5 +15,9 @@ export default class LoginPage {
         await this.usernameTxt.fill(username);
         await this.passwordTxt.fill(password);
         await this.loginBtn.click();
+    }
+
+    async displays(): Promise<void> {
+        expect((this.repositoryCbx).and(this.usernameTxt).and(this.passwordTxt).and(this.loginBtn).isVisible());
     }
 }
