@@ -1,13 +1,37 @@
 import { Locator, Page, expect } from "@playwright/test"
 
 export default class LoginPage {
-    constructor(private readonly page: Page) { }
+    readonly repositoryCbx: Locator;
+    readonly usernameTxt: Locator;
+    readonly passwordTxt: Locator;
+    readonly loginBtn: Locator;
 
-    readonly repositoryCbx: Locator = this.page.locator('xpath = //select[@id = "repository"]');
-    readonly usernameTxt: Locator = this.page.locator('xpath = //input[@id = "username"]');
-    readonly passwordTxt: Locator = this.page.locator('xpath = //input[@id = "password"]');
-    readonly loginBtn: Locator = this.page.locator('.btn-login');
+    constructor(private readonly page: Page) {
+        this.repositoryCbx = page.locator('xpath = //select[@id = "repository"]');
+        this.usernameTxt = page.locator('xpath = //input[@id = "username"]');
+        this.passwordTxt = page.locator('xpath = //input[@id = "password"]');
+        this.loginBtn = page.locator('.btn-login');
+    }
 
+    // #region getter
+    public getRepositoryCbx(): Locator {
+        return this.repositoryCbx;
+    }
+
+    public getUsernameTxt(): Locator {
+        return this.usernameTxt;
+    }
+
+    public getPasswordTxt(): Locator {
+        return this.passwordTxt;
+    }
+
+    public getLoginBtn(): Locator {
+        return this.loginBtn;
+    }
+    // #endregion
+
+    // #region action methods
     async login(username: string, password: string, repository?: string): Promise<void> {
         if (repository != null && repository != undefined) {
             await this.repositoryCbx.selectOption(repository);
@@ -16,20 +40,11 @@ export default class LoginPage {
         await this.passwordTxt.fill(password);
         await this.loginBtn.click();
     }
+    // #endregion
 
-    async verifyDialogMessage(dialogMessage: string): Promise<void> {
-        // expect(this.page.on('dialog', async dialog => dialog.message.toString() === dialogMessage));
-        // this.page.on('dialog', dialog => dialog.accept());
-
-        this.page.on('dialog', dialog => {
-            console.log(dialog.message());
-            console.log(dialogMessage);
-            // expect(dialog.message()).toEqual(dialogMessage);
-            dialog.accept();
-        });
-    }
-
+    // #region validation methods
     async displays(): Promise<void> {
         expect((this.repositoryCbx).and(this.usernameTxt).and(this.passwordTxt).and(this.loginBtn).isVisible());
     }
+    // #endregion
 }

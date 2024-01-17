@@ -1,14 +1,16 @@
 
-import { Page, expect } from "@playwright/test"
+import { Locator, Page, expect } from "@playwright/test"
 
 export default class Alerts {
     constructor(private readonly page: Page) { }
 
+    readonly PROMPT_ALERT_BUTTON: Locator = this.page.locator('#promtButton');
+
     async verifyDialogMessage(dialogMessage: string): Promise<void> {
         this.page.on('dialog', async dialog => {
-            let myPromise = new Promise(function () { expect(dialog.message()).toEqual(dialogMessage) });
-            await myPromise;
-            await dialog.accept('OK');
+            dialog.accept();
+            expect(dialog.message()).toEqual(dialogMessage);
+            await this.PROMPT_ALERT_BUTTON.click();
         });
     }
 }
