@@ -2,18 +2,18 @@ import { Locator, Page, expect } from "@playwright/test"
 import Alerts from "../elements/dialog";
 
 export default class DashboardMainPage {
-    readonly profileLabel: Locator;
-    readonly logoutBtn: Locator;
-    readonly globalSettingBtn: Locator;
-    readonly addPageBtn: Locator;
-    readonly deletePageBtn: Locator;
+    private readonly profileLabel: Locator;
+    private readonly globalSettingBtn: Locator;
+    private readonly deletePageBtn: Locator;
+    private readonly administerlnk: Locator;
 
     constructor(private readonly page: Page) {
         this.profileLabel = page.locator('//a[@href="#Welcome"]');
-        this.logoutBtn = page.locator('//a[@href="logout.do"]');
+
         this.globalSettingBtn = page.locator('li').filter({ hasText: 'Global Setting Add Page' }).getByRole('link').first();
-        this.addPageBtn = page.getByRole('link', { name: 'Add Page' });
         this.deletePageBtn = page.getByRole('link', { name: 'Delete' });
+
+        this.administerlnk = page.locator('xpath = //a[@href="#Administer"]');
     }
 
     // #region getter
@@ -21,20 +21,33 @@ export default class DashboardMainPage {
         return this.profileLabel;
     }
 
-    public getLogoutBtn(): Locator {
-        return this.logoutBtn;
+    public get getAdministerlnk(): Locator {
+        return this.administerlnk;
+    }
+
+    public get getDeletePageBtn(): Locator {
+        return this.deletePageBtn;
+    }
+
+    public get getGlobalSettingBtn(): Locator {
+        return this.globalSettingBtn;
     }
     // #endregion
 
     // #region action methods
-    async logout(): Promise<void> {
+    async clickAdministratorActionLink(action: string): Promise<void> {
         await this.profileLabel.hover();
-        await this.logoutBtn.click();
+        await this.page.locator('xpath = //a[@href="#Welcome"]/..//a[text() = "%action"]'.replace("%action", action)).click();
     }
 
-    async clickAddNewpageButton(): Promise<void> {
+    async clickGlobalSettingActionLink(action: string): Promise<void> {
         await this.globalSettingBtn.hover();
-        await this.addPageBtn.click();
+        await this.page.locator('xpath = //li[@class="mn-setting"]//a[text() = "%action"]'.replace("%action", action)).click();
+    }
+
+    async clickAdministerActionLink(action: string): Promise<void> {
+        await this.administerlnk.hover();
+        await this.page.locator('xpath = //a[@href="#Administer"]/..//a[text() = "%action"]'.replace("%action", action)).click();
     }
 
     async clickOnPage(pageName: string): Promise<void> {
@@ -51,8 +64,7 @@ export default class DashboardMainPage {
                 await this.hoverOnPage(dataString[index]);
             } else {
                 await this.clickOnPage(dataString[index]);
-                await this.globalSettingBtn.hover();
-                await this.deletePageBtn.click();
+                await this.clickGlobalSettingActionLink("Delete");
             }
         }
     }

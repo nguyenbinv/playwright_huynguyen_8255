@@ -1,13 +1,13 @@
 import { Locator, Page, expect } from "@playwright/test"
 
 export default class AddNewpagePage {
-    readonly pageNameTxt: Locator;
-    readonly parentPageCbx: Locator;
-    readonly numberOfCollumnsCbx: Locator;
-    readonly displayAfterCbx: Locator;
-    readonly publicCb: Locator;
-    readonly okBtn: Locator;
-    readonly cancelBtn: Locator;
+    private readonly pageNameTxt: Locator;
+    private readonly parentPageCbx: Locator;
+    private readonly numberOfCollumnsCbx: Locator;
+    private readonly displayAfterCbx: Locator;
+    private readonly publicCb: Locator;
+    private readonly okBtn: Locator;
+    private readonly cancelBtn: Locator;
 
     constructor(private readonly page: Page) {
         this.pageNameTxt = page.locator('xpath = //input[@id="name"]');

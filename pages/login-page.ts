@@ -1,10 +1,10 @@
 import { Locator, Page, expect } from "@playwright/test"
 
 export default class LoginPage {
-    readonly repositoryCbx: Locator;
-    readonly usernameTxt: Locator;
-    readonly passwordTxt: Locator;
-    readonly loginBtn: Locator;
+    private readonly repositoryCbx: Locator;
+    private readonly usernameTxt: Locator;
+    private readonly passwordTxt: Locator;
+    private readonly loginBtn: Locator;
 
     constructor(private readonly page: Page) {
         this.repositoryCbx = page.locator('xpath = //select[@id = "repository"]');

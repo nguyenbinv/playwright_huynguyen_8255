@@ -25,7 +25,7 @@ test.beforeEach('Init browser, navigate to TA Dashboard and login', async ({ pag
 
 test('DA_MP_TC014: Verify that "Public" pages can be visible and accessed by all users of working repository', async ({ page }) => {
     const dashboardMainPage = new DashboardMainPage(page);
-    await dashboardMainPage.clickAddNewpageButton();
+    await dashboardMainPage.clickGlobalSettingActionLink("Add Page");
 
     const addNewpagePage = new AddNewpagePage(page);
     await addNewpagePage.addNewPage(pageName);
@@ -41,12 +41,12 @@ test('DA_MP_TC014: Verify that "Public" pages can be visible and accessed by all
 
 test('DA_MP_TC017: Verify that user can remove any main parent page except "Overview" page successfully and the order of pages stays persistent as long as there is not children page under it', async ({ page }) => {
     const dashboardMainPage = new DashboardMainPage(page);
-    await dashboardMainPage.clickAddNewpageButton();
+    await dashboardMainPage.clickGlobalSettingActionLink("Add Page");
 
     const addNewpagePage = new AddNewpagePage(page);
     await addNewpagePage.addNewPage(pageName);
 
-    await dashboardMainPage.clickAddNewpageButton();
+    await dashboardMainPage.clickGlobalSettingActionLink("Add Page");
 
     const childPageName = ult.stringGenerator(7);
     await addNewpagePage.addNewPage(childPageName, pageName);
