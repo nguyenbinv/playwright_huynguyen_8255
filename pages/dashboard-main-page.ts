@@ -37,18 +37,20 @@ export default class DashboardMainPage {
         await this.addPageBtn.click();
     }
 
-    async deletePage1(pageName: string): Promise<void> {
+    async clickOnPage(pageName: string): Promise<void> {
         await (this.page.locator('xpath = //div[@id="main-menu"]//a[text()="%s"]'.replace("%s", pageName))).click();
-        await this.globalSettingBtn.hover();
-        await this.deletePageBtn.click();
+    }
+
+    async hoverOnPage(pageName: string): Promise<void> {
+        await (this.page.locator('xpath = //div[@id="main-menu"]//a[text()="%s"]'.replace("%s", pageName))).hover();
     }
 
     async deletePage(...dataString: string[]): Promise<void> {
         for (let index = 0; index < dataString.length; index++) {
             if (dataString[index] != dataString[dataString.length - 1]) {
-                await (this.page.locator('xpath = //div[@id="main-menu"]//a[text()="%s"]'.replace("%s", dataString[index]))).hover();
+                await this.hoverOnPage(dataString[index]);
             } else {
-                await (this.page.locator('xpath = //div[@id="main-menu"]//a[text()="%s"]'.replace("%s", dataString[index]))).click();
+                await this.clickOnPage(dataString[index]);
                 await this.globalSettingBtn.hover();
                 await this.deletePageBtn.click();
             }
@@ -63,6 +65,15 @@ export default class DashboardMainPage {
 
     async verifyPageDisplays(pageName: string): Promise<void> {
         await expect(this.page.getByRole('link', { name: pageName })).toBeVisible();
+    }
+
+    async verifyPageDoesNotDisplay(pageName: string): Promise<void> {
+        await expect(this.page.getByRole('link', { name: pageName })).not.toBeVisible();
+    }
+
+    async verifyGlobalSettingActionDoesNotDisplay(action: string): Promise<void> {
+        await this.globalSettingBtn.hover();
+        await expect(this.page.locator('xpath = //a[@class="%s"]'.replace("%s", action))).not.toBeVisible();
     }
     // #endregion
 }

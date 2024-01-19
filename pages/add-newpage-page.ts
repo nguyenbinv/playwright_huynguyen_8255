@@ -49,18 +49,6 @@ export default class AddNewpagePage {
     }
     // #endregion
 
-    // #region action methods
-    // async addNewPage(pageName: string, numberOfColumns: string, displayAfter: string, publicCheck: boolean, parentPage?: string): Promise<void> {
-    //     this.pageNameTxt.fill(pageName);
-    //     this.numberOfCollumnsCbx.selectOption(numberOfColumns);
-    //     this.displayAfterCbx.selectOption(displayAfter);
-    //     this.publicCb.setChecked(publicCheck);
-    //     if (parentPage != null && parentPage != undefined) {
-    //         this.parentPageCbx.selectOption(pageName);
-    //     }
-    //     this.okBtn.click();
-    // }
-
     async addNewPage(...dataString: any[]): Promise<void> {
         this.pageNameTxt.fill(dataString[0]);
         if (dataString[1] != null && dataString[1] != undefined) {
