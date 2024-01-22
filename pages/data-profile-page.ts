@@ -27,26 +27,20 @@ export default class DataProfiles {
         await this.addNewPannelLink.click();
     }
 
-    // async table(): Promise<void> {
-    //     const textsFromNthColumn = [];
-    //     const rowCount = await this.page.locator('.table-tbody').locator('tr').count();
-
-    //     for (let i = 0; i < rowCount; i++) {
-    //         textsFromNthColumn.push(await this.page.locator('.table-tbody').locator('tr').nth(i).locator('td').nth(2).innerText());
-    //     }
-
-    //     console.log(textsFromNthColumn)
-    // }
-
-    async verifyDataProfileHasSorted(): Promise<void> {
+    async verifyDataProfilesHasSorted(headerName: string): Promise<void> {
         var textsFromThirdColumn: string[] = [];
         const tableLocation = this.page.locator('xpath = //table[@class="GridView"]/tbody');
-        const rowCount = await this.page.locator('xpath = //table[@class="GridView"]/tbody').locator('tr').count();
+        const rowCount = await tableLocation.locator('tr').count();
 
-        for (let i = 1; i < rowCount-1; i++) {
-            textsFromThirdColumn.push((await tableLocation.locator('tr').nth(i).locator('td').nth(1).innerText()).trim());
+        for (let i = 2; i < rowCount; i++) {
+            textsFromThirdColumn.push(await this.page.locator('xpath = //table[@class="GridView"]/tbody/tr[%rowNumber]/td[count(//th[text()="%headerName"]/preceding-sibling::*)+1]'
+                .replace("%rowNumber", i.toString())
+                .replace("%headerName", headerName))
+                .innerText());
         }
         var textsFromThirdColumnTmp: string[] = textsFromThirdColumn.sort().slice();
+        console.log(textsFromThirdColumnTmp);
+        console.log(textsFromThirdColumn);
         expect(textsFromThirdColumn).toEqual(textsFromThirdColumnTmp);
     }
     // #endregion

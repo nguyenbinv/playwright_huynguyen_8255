@@ -20,5 +20,5 @@ test('DA_DP_TC065: Verify that all Pre-set Data Profiles are populated correctly
     await dashboardMainPage.clickAdministerActionLink("Data Profiles");
 
     const dataProfiles = new DataProfiles(page);
-    await dataProfiles.verifyDataProfileHasSorted();
+    await dataProfiles.verifyDataProfilesHasSorted("Data Profile");
 })
