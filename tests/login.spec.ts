@@ -6,7 +6,7 @@ import Dialog from '../elements/dialog';
 
 test.beforeEach('Init browser and navigate to TA Dashboard', async ({ page }) => {
   const browserUlt = new BrowserUlts(page);
-  browserUlt.navigateTo('http://localhost/TADashboard/login.jsp');
+  browserUlt.navigateTo('/TADashboard/login.jsp');
 });
 
 test('DA_LOGIN_TC001: Verify that user can login specific repository successfully via Dashboard login page with correct credentials', async ({ page }) => {

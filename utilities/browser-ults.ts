@@ -6,11 +6,4 @@ export default class BrowserUlts {
     navigateTo(url: string): void {
         this.page.goto(url);
     }
-
-    stringGenerator(numberOfChar: number): string {
-        var randomString = require("randomstring");
-        const randomStringConst = randomString.generate(numberOfChar);
-
-        return randomStringConst;
-    }
 }

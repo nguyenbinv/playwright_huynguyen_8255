@@ -6,7 +6,7 @@ import DataProfiles from '../pages/data-profile-page';
 
 test.beforeEach('Init browser, navigate to TA Dashboard and login', async ({ page }) => {
     const browserUlt = new BrowserUlts(page);
-    browserUlt.navigateTo('http://localhost/TADashboard/login.jsp');
+    browserUlt.navigateTo('/TADashboard/login.jsp');
 
     const loginPage = new LoginPage(page);
     await loginPage.login('administrator', '');
